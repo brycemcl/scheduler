@@ -6,11 +6,12 @@ const InterviewerList = ({ interviewers, interviewer, setInterviewer }) => {
   const InterviewerListItems = interviewers.map((i) => (
     <InterviewerListItem
       key={i.id}
-      id={i.id}
       name={i.name}
       avatar={i.avatar}
       selected={i.id === interviewer}
-      setInterviewer={setInterviewer}
+      setInterviewer={() => {
+        setInterviewer(i.id);
+      }}
     />
   ));
   return (
