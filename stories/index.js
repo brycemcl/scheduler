@@ -67,6 +67,13 @@ storiesOf('DayList', module)
     <DayList days={days} day={'Tuesday'} setDay={action('setDay')} />
   ));
 
+// 
+// 
+// 
+// 
+// 
+// 
+
 import InterviewerListItem from 'components/InterviewerListItem';
 const interviewer = {
   id: 1,
@@ -93,14 +100,21 @@ storiesOf('InterviewerListItem', module)
       selected
     />
   ))
-  .add("Clickable", () => (
+  .add('Clickable', () => (
     <InterviewerListItem
       id={interviewer.id}
       name={interviewer.name}
       avatar={interviewer.avatar}
-      setInterviewer={event => action("setInterviewer")(interviewer.id)}
+      onChange={(event) => action('setInterviewer')(interviewer.id)}
     />
   ));
+
+// 
+// 
+// 
+// 
+// 
+// 
 
 import InterviewerList from 'components/InterviewerList';
 const interviewers = [
@@ -118,13 +132,13 @@ storiesOf('InterviewerList', module)
   .add('Initial', () => (
     <InterviewerList
       interviewers={interviewers}
-      setInterviewer={action('setInterviewer')}
+      onChange={action('onChange')}
     />
   ))
   .add('Preselected', () => (
     <InterviewerList
       interviewers={interviewers}
-      interviewer={3}
-      setInterviewer={action('setInterviewer')}
+      value={3}
+      onChange={action('onChange')}
     />
   ));
