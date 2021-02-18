@@ -3,29 +3,47 @@ import axios from 'axios';
 import 'components/Application.scss';
 import DayList from 'components/DayList.js';
 import Appointment from 'components/Appointment';
-import {getAppointmentsForDay} from 'helpers/selectors';
+import { getAppointmentsForDay, getInterview } from 'helpers/selectors';
 
 export default function Application(props) {
   const [state, setState] = useState({
     days: [],
     day: 'Monday',
     appointments: {},
-    interviewers:{}
+    interviewers: {},
   });
   const { days, day } = state;
-  const dailyAppointments = getAppointmentsForDay(state,state.day);
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
+  const schedule = dailyAppointments.map((appointment) => {
+    const interview = getInterview(state, appointment.interview);
+
+    return (
+      <Appointment
+        key={appointment.id}
+        {...appointment}
+        interview={interview}
+      />
+    );
+  });
   const setDay = (arg) => {
     setState({ ...state, day: arg });
   };
   useEffect(() => {
-    Promise.all([axios.get('/api/days'), axios.get('/api/appointments'), axios.get('/api/interviewers')]).then(
-      (a) => {
-        const [days, appointments,interviewers] = a;
-        setState((s) => {
-          return { ...s, days: days.data, appointments: appointments.data, interviewers:interviewers.data };
-        });
-      }
-    );
+    Promise.all([
+      axios.get('/api/days'),
+      axios.get('/api/appointments'),
+      axios.get('/api/interviewers'),
+    ]).then((a) => {
+      const [days, appointments, interviewers] = a;
+      setState((s) => {
+        return {
+          ...s,
+          days: days.data,
+          appointments: appointments.data,
+          interviewers: interviewers.data,
+        };
+      });
+    });
   }, []);
   return (
     <main className='layout'>
@@ -46,9 +64,7 @@ export default function Application(props) {
         />
       </section>
       <section className='schedule'>
-        {dailyAppointments.map((apt) => {
-          return <Appointment key={apt.id} {...apt} />;
-        })}
+        {schedule}
         <Appointment key='last' time='2pm' />
       </section>
     </main>
