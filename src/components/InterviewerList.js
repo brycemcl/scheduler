@@ -3,7 +3,7 @@ import 'components/InterviewerList.scss';
 import InterviewerListItem from 'components/InterviewerListItem';
 
 const InterviewerList = ({ interviewers, value, onChange }) => {
-  const InterviewerListItems = interviewers.map((i) => (
+  const InterviewerListItems = Object.values(interviewers).map((i) => (
     <InterviewerListItem
       key={i.id}
       name={i.name}

@@ -3,7 +3,7 @@ import InterviewerList from 'components/InterviewerList';
 import Button from 'components/Button';
 const Form = ({
   name: propsName = '',
-  interviewers,
+  interviewers = [],
   interviewer: propsInterviewer = '',
   onSave,
   onCancel,
