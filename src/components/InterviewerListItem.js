@@ -2,20 +2,13 @@ import React from 'react';
 import classNames from 'classnames';
 import 'components/InterviewerListItem.scss';
 
-const InterviewerListItem = ({
-  name,
-  avatar,
-  selected,
-  onChange,
-}) => {
+const InterviewerListItem = ({ name, avatar, selected, onChange }) => {
   const InterviewerListItemClass = classNames('interviewers__item', {
     'interviewers__item--selected': selected,
   });
   return (
-    <li
-      className={InterviewerListItemClass}
-      onClick={onChange}>
-      <img className='interviewers__item-image' src={avatar} alt={name} />
+    <li className={InterviewerListItemClass} onClick={onChange}>
+      <img className="interviewers__item-image" src={avatar} alt={name} />
       {selected && name}
     </li>
   );

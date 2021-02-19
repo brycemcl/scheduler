@@ -11,8 +11,8 @@ const DayListItem = ({ name, spots, selected, setDay }) => {
 
   return (
     <li onClick={() => setDay(name)} className={buttonClass}>
-      <h2 className='text--regular'>{name}</h2>
-      <h3 className='text--light'>
+      <h2 className="text--regular">{name}</h2>
+      <h3 className="text--light">
         {[spots].map((numberOfSpots) => {
           if (numberOfSpots === 0) {
             return 'no spots remaining';

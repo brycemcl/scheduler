@@ -15,9 +15,9 @@ const InterviewerList = ({ interviewers, value, onChange }) => {
     />
   ));
   return (
-    <section className='interviewers'>
-      <h4 className='interviewers__header text--light'>Interviewer</h4>
-      <ul className='interviewers__list'>{InterviewerListItems}</ul>
+    <section className="interviewers">
+      <h4 className="interviewers__header text--light">Interviewer</h4>
+      <ul className="interviewers__list">{InterviewerListItems}</ul>
     </section>
   );
 };

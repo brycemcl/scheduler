@@ -22,7 +22,7 @@ const Appointment = ({ time, interview, interviewers, ...rest }) => {
   const EMPTY = 'EMPTY';
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
   return (
-    <div className='appointment'>
+    <div className="appointment">
       <Header time={time} />
       {mode === EMPTY && <Empty onAdd={() => transition(FORM)} />}
       {mode === FORM && (
@@ -42,18 +42,18 @@ const Appointment = ({ time, interview, interviewers, ...rest }) => {
           onDelete={() => transition(CONFIRM)}
         />
       )}
-      {mode === SAVING && <Status message='Saving' />}
+      {mode === SAVING && <Status message="Saving" />}
       {mode === CONFIRM && (
         <Confirm
-          message='Delete the appointment?'
+          message="Delete the appointment?"
           onConfirm={() => transition(DELETING)}
           onCancel={() => back()}
         />
       )}
-      {mode === DELETING && <Status message='Deleting' />}
+      {mode === DELETING && <Status message="Deleting" />}
       {errorMessageActive && (
         <Error
-          message='An error has occurred. Please try again.'
+          message="An error has occurred. Please try again."
           onClose={() => setErrorMessageActive(false)}
         />
       )}
