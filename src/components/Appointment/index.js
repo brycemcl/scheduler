@@ -27,7 +27,7 @@ const Appointment = ({ time, interview, interviewers, ...rest }) => {
       {mode === EMPTY && <Empty onAdd={() => transition(FORM)} />}
       {mode === FORM && (
         <Form
-          name={interview && interview.student}
+          name={interview ? interview.student : ''}
           interviewers={interviewers}
           interviewer={interview && interview.interviewer.id}
           onSave={() => transition(SAVING)}
