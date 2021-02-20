@@ -9,11 +9,8 @@ import Confirm from './Confirm';
 import './styles.scss';
 import useVisualMode from 'hooks/useVisualMode';
 
-const Appointment = ({ time, interview, interviewers, ...rest }) => {
+const Appointment = ({ time, interview, interviewers, id }) => {
   const [errorMessageActive, setErrorMessageActive] = useState(false);
-  if (rest.length) {
-    console.error(rest);
-  }
   const FORM = 'FORM';
   const SAVING = 'SAVING';
   const SHOW = 'SHOW';
