@@ -10,6 +10,7 @@ const Form = ({
   onCancel,
   onUpdatingState,
   onError,
+  onFormError,
   onUpdatedState,
 }) => {
   const [name, setName] = useState(propsName);
@@ -64,7 +65,7 @@ const Form = ({
                 } else if (!interviewer) {
                   errors += 'Please select an interviewer.';
                 }
-                onError(errors);
+                onFormError(errors);
               }
             }}
           >

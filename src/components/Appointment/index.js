@@ -17,22 +17,22 @@ const Appointment = ({
   deleteInterview,
   setInterview,
 }) => {
-  const [errorMessageActive, setErrorMessageActive] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const FORM = 'FORM';
   const SAVING = 'SAVING';
   const SHOW = 'SHOW';
   const CONFIRM = 'CONFIRM';
   const DELETING = 'DELETING';
+  const ERROR = 'ERROR';
   const { mode, transition, back } = useVisualMode(SHOW);
   return (
     <div className="appointment">
       <Header time={time} />
-      {errorMessageActive && (
+      {mode === ERROR && (
         <Error
           id={id}
           message={errorMessage || 'An error has occurred. Please try again.'}
-          onClose={() => setErrorMessageActive(false)}
+          onClose={() => back()}
         />
       )}
       {mode === SHOW && !interview && <Empty onAdd={() => transition(FORM)} />}
@@ -42,11 +42,14 @@ const Appointment = ({
           name={interview ? interview.student : ''}
           interviewers={interviewers}
           interviewer={interview && interview.interviewer.id}
-          onUpdatingState={() => transition(SAVING, true)}
+          onUpdatingState={() => transition(SAVING)}
           onError={(m) => {
-            transition(FORM, true);
             setErrorMessage(m);
-            setErrorMessageActive(true);
+            transition(ERROR, true);
+          }}
+          onFormError={(m) => {
+            setErrorMessage(m);
+            transition(ERROR);
           }}
           onUpdatedState={() => back()}
           onSave={(p) => {
@@ -72,9 +75,8 @@ const Appointment = ({
           onCancel={() => back()}
           onUpdatingState={() => transition(DELETING, true)}
           onError={(m) => {
-            transition(FORM, true);
             setErrorMessage(m);
-            setErrorMessageActive(true);
+            transition(ERROR, true);
           }}
           onUpdatedState={() => {
             back();
