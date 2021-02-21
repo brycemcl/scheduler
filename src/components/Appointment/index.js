@@ -51,7 +51,10 @@ const Appointment = ({
             setErrorMessage(m);
             transition(ERROR);
           }}
-          onUpdatedState={() => back()}
+          onUpdatedState={() => {
+            back();
+            back();
+          }}
           onSave={(p) => {
             setInterview(p);
           }}
