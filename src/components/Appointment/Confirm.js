@@ -1,7 +1,15 @@
 import React from 'react';
 import Button from 'components/Button';
 
-const Confirm = ({ message, onConfirm, onCancel }) => {
+const Confirm = ({
+  message,
+  deleteInterview,
+  id,
+  onUpdatingState,
+  onError,
+  onUpdatedState,
+  onCancel,
+}) => {
   return (
     <main className="appointment__card appointment__card--confirm">
       <h1 className="text--semi-bold">{message}</h1>
@@ -9,7 +17,17 @@ const Confirm = ({ message, onConfirm, onCancel }) => {
         <Button danger onClick={onCancel}>
           Cancel
         </Button>
-        <Button danger onClick={onConfirm}>
+        <Button
+          danger
+          onClick={() => {
+            deleteInterview({
+              id,
+              onUpdatingState,
+              onError,
+              onUpdatedState,
+            });
+          }}
+        >
           Confirm
         </Button>
       </section>

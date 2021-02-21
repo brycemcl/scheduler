@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import InterviewerList from 'components/InterviewerList';
 import Button from 'components/Button';
 const Form = ({
+  id,
   name: propsName = '',
   interviewers = [],
   interviewer: propsInterviewer = '',
   onSave,
   onCancel,
+  onUpdatingState,
+  onError,
+  onUpdatedState,
 }) => {
   const [name, setName] = useState(propsName);
   const [interviewer, setInterviewer] = useState(propsInterviewer);
@@ -39,7 +43,31 @@ const Form = ({
           <Button danger onClick={reset}>
             Cancel
           </Button>
-          <Button confirm onClick={onSave}>
+          <Button
+            confirm
+            onClick={() => {
+              if (name && interviewer) {
+                onSave({
+                  id,
+                  name,
+                  interviewerId: interviewer,
+                  onUpdatingState,
+                  onError,
+                  onUpdatedState,
+                });
+              } else {
+                let errors = '';
+                if (!name && !interviewer) {
+                  errors += 'Please enter your name & select an interviewer.';
+                } else if (!name) {
+                  errors += 'Please enter your name.';
+                } else if (!interviewer) {
+                  errors += 'Please select an interviewer.';
+                }
+                onError(errors);
+              }
+            }}
+          >
             Save
           </Button>
         </section>

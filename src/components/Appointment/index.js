@@ -9,29 +9,53 @@ import Confirm from './Confirm';
 import './styles.scss';
 import useVisualMode from 'hooks/useVisualMode';
 
-const Appointment = ({ time, interview, interviewers, id }) => {
+const Appointment = ({
+  time = '',
+  interview,
+  interviewers,
+  id,
+  deleteInterview,
+  setInterview,
+}) => {
   const [errorMessageActive, setErrorMessageActive] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const FORM = 'FORM';
   const SAVING = 'SAVING';
   const SHOW = 'SHOW';
   const CONFIRM = 'CONFIRM';
   const DELETING = 'DELETING';
-  const EMPTY = 'EMPTY';
-  const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
+  const { mode, transition, back } = useVisualMode(SHOW);
   return (
     <div className="appointment">
       <Header time={time} />
-      {mode === EMPTY && <Empty onAdd={() => transition(FORM)} />}
+      {errorMessageActive && (
+        <Error
+          id={id}
+          message={errorMessage || 'An error has occurred. Please try again.'}
+          onClose={() => setErrorMessageActive(false)}
+        />
+      )}
+      {mode === SHOW && !interview && <Empty onAdd={() => transition(FORM)} />}
       {mode === FORM && (
         <Form
+          id={id}
           name={interview ? interview.student : ''}
           interviewers={interviewers}
           interviewer={interview && interview.interviewer.id}
-          onSave={() => transition(SAVING)}
+          onUpdatingState={() => transition(SAVING, true)}
+          onError={(m) => {
+            transition(FORM, true);
+            setErrorMessage(m);
+            setErrorMessageActive(true);
+          }}
+          onUpdatedState={() => back()}
+          onSave={(p) => {
+            setInterview(p);
+          }}
           onCancel={() => back()}
         />
       )}
-      {mode === SHOW && (
+      {mode === SHOW && interview && (
         <Show
           student={interview.student}
           interviewer={interview.interviewer}
@@ -42,18 +66,22 @@ const Appointment = ({ time, interview, interviewers, id }) => {
       {mode === SAVING && <Status message="Saving" />}
       {mode === CONFIRM && (
         <Confirm
+          id={id}
           message="Delete the appointment?"
-          onConfirm={() => transition(DELETING)}
+          deleteInterview={(p) => deleteInterview(p)}
           onCancel={() => back()}
+          onUpdatingState={() => transition(DELETING, true)}
+          onError={(m) => {
+            transition(FORM, true);
+            setErrorMessage(m);
+            setErrorMessageActive(true);
+          }}
+          onUpdatedState={() => {
+            back();
+          }}
         />
       )}
       {mode === DELETING && <Status message="Deleting" />}
-      {errorMessageActive && (
-        <Error
-          message="An error has occurred. Please try again."
-          onClose={() => setErrorMessageActive(false)}
-        />
-      )}
     </div>
   );
 };

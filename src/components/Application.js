@@ -14,23 +14,11 @@ export default function Application(props) {
   });
   const { days, day } = state;
   const dailyAppointments = getAppointmentsForDay(state, state.day);
-  const schedule = dailyAppointments.map((appointment) => {
-    const interview = getInterview(state, appointment.interview);
-
-    return (
-      <Appointment
-        key={appointment.id}
-        {...appointment}
-        interviewers={state.interviewers}
-        interview={interview}
-      />
-    );
-  });
   const setDay = (arg) => {
     setState({ ...state, day: arg });
   };
-  useEffect(() => {
-    Promise.all([
+  const updateState = () => {
+    return Promise.all([
       axios.get('/api/days'),
       axios.get('/api/appointments'),
       axios.get('/api/interviewers'),
@@ -45,7 +33,69 @@ export default function Application(props) {
         };
       });
     });
+  };
+  useEffect(() => {
+    updateState();
   }, []);
+  const createAppointmentObject = ({ id, name, interviewerId }) => {
+    const appointment = {
+      ...state.appointments[id],
+      interview: {
+        student: name,
+        interviewer: interviewerId,
+      },
+    };
+    return appointment;
+  };
+  const setInterview = ({
+    id,
+    name,
+    interviewerId,
+    onUpdatingState,
+    onError,
+    onUpdatedState,
+  }) => {
+    onUpdatingState();
+    const appointment = createAppointmentObject({ id, name, interviewerId });
+    axios
+      .put(`api/appointments/${id}`, appointment)
+      .then(() => updateState())
+      .then(() => onUpdatedState())
+      .catch((e) => {
+        onError('Error saving appointment. Please try again.');
+        console.log(e);
+      });
+  };
+  const deleteInterview = ({
+    id,
+    onUpdatingState,
+    onError,
+    onUpdatedState,
+  }) => {
+    onUpdatingState();
+    axios
+      .delete(`api/appointments/${id}`)
+      .then(() => updateState())
+      .then(() => onUpdatedState())
+      .catch((e) => {
+        onError('Error deleting appointment. Please try again.');
+        console.log(e);
+      });
+  };
+  const schedule = dailyAppointments.map((appointment) => {
+    const interview = getInterview(state, appointment.interview);
+
+    return (
+      <Appointment
+        key={appointment.id}
+        {...appointment}
+        interviewers={state.interviewers}
+        interview={interview}
+        setInterview={setInterview}
+        deleteInterview={deleteInterview}
+      />
+    );
+  });
   return (
     <main className="layout">
       <section className="sidebar">
@@ -66,7 +116,7 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {schedule}
-        <Appointment key="last" time="2pm" />
+        <Appointment key="last" />
       </section>
     </main>
   );
