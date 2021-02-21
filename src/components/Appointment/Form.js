@@ -14,10 +14,10 @@ const Form = ({
   onUpdatedState,
 }) => {
   const [name, setName] = useState(propsName);
-  const [interviewer, setInterviewer] = useState(propsInterviewer);
+  const [interviewer, bookInterviewer] = useState(propsInterviewer);
   const reset = () => {
     setName(propsName);
-    setInterviewer(propsInterviewer);
+    bookInterviewer(propsInterviewer);
     onCancel();
   };
   return (
@@ -36,7 +36,7 @@ const Form = ({
         <InterviewerList
           interviewers={interviewers}
           value={interviewer}
-          onChange={setInterviewer}
+          onChange={bookInterviewer}
         />
       </section>
       <section className="appointment__card-right">

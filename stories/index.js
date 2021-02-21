@@ -130,7 +130,7 @@ storiesOf('InterviewerListItem', module)
       id={interviewer.id}
       name={interviewer.name}
       avatar={interviewer.avatar}
-      onChange={(event) => action('setInterviewer')(interviewer.id)}
+      onChange={(event) => action('bookInterviewer')(interviewer.id)}
     />
   ));
 const interviewers = [

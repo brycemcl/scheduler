@@ -14,8 +14,8 @@ const Appointment = ({
   interview,
   interviewers,
   id,
-  deleteInterview,
-  setInterview,
+  cancelInterview,
+  bookInterview,
 }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const FORM = 'FORM';
@@ -56,7 +56,7 @@ const Appointment = ({
             back();
           }}
           onSave={(p) => {
-            setInterview(p);
+            bookInterview(p);
           }}
           onCancel={() => back()}
         />
@@ -74,7 +74,7 @@ const Appointment = ({
         <Confirm
           id={id}
           message="Delete the appointment?"
-          deleteInterview={(p) => deleteInterview(p)}
+          cancelInterview={(p) => cancelInterview(p)}
           onCancel={() => back()}
           onUpdatingState={() => transition(DELETING, true)}
           onError={(m) => {

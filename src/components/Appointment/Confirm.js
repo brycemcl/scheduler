@@ -3,7 +3,7 @@ import Button from 'components/Button';
 
 const Confirm = ({
   message,
-  deleteInterview,
+  cancelInterview,
   id,
   onUpdatingState,
   onError,
@@ -20,7 +20,7 @@ const Confirm = ({
         <Button
           danger
           onClick={() => {
-            deleteInterview({
+            cancelInterview({
               id,
               onUpdatingState,
               onError,
