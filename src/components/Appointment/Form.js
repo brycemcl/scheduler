@@ -18,6 +18,7 @@ const Form = ({
   const reset = () => {
     setName(propsName);
     bookInterviewer(propsInterviewer);
+    setError('');
     onCancel();
   };
   return (

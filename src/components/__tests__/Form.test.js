@@ -119,4 +119,31 @@ describe('Form', () => {
       expect.objectContaining({ name: 'Lydia Miller-Jones' })
     );
   });
+
+  it('calls onCancel and resets the input field', () => {
+    const onCancel = jest.fn();
+    const { getByText, getByPlaceholderText, queryByText } = render(
+      <Form
+        interviewers={interviewers}
+        interviewer={interviewers[0]}
+        name=""
+        onSave={jest.fn()}
+        onCancel={onCancel}
+      />
+    );
+
+    fireEvent.click(getByText('Save'));
+
+    fireEvent.change(getByPlaceholderText('Enter Student Name'), {
+      target: { value: 'Lydia Miller-Jones' },
+    });
+
+    fireEvent.click(getByText('Cancel'));
+
+    expect(queryByText(/Please enter your name./i)).toBeNull();
+
+    expect(getByPlaceholderText('Enter Student Name')).toHaveValue('');
+
+    expect(onCancel).toHaveBeenCalledTimes(1);
+  });
 });
