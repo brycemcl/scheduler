@@ -33,7 +33,11 @@ const useApplicationData = () => {
   useEffect(() => {
     updateState();
   }, []);
-  const createAppointmentObject = ({ id, name, interviewerId }) => {
+  const createAppointmentObject = ({
+    id,
+    name = null,
+    interviewerId = null,
+  }) => {
     const appointment = {
       ...state.appointments[id],
       interview: {
@@ -41,7 +45,24 @@ const useApplicationData = () => {
         interviewer: interviewerId,
       },
     };
+    if (!appointment.interview.student || !appointment.interview.interviewer) {
+      appointment.interview = null;
+    }
     return appointment;
+  };
+  const updateSpots = (state) => {
+    const newState = { ...state };
+    state.days
+      .map((day) => {
+        return day.appointments.filter((a) => {
+          return !state.appointments[a].interview;
+        });
+      })
+      .map((day) => day.length)
+      .forEach((spots, index) => {
+        newState.days[index].spots = spots;
+      });
+    return newState;
   };
   const bookInterview = ({
     id,
@@ -55,7 +76,14 @@ const useApplicationData = () => {
     const appointment = createAppointmentObject({ id, name, interviewerId });
     axios
       .put(`api/appointments/${id}`, appointment)
-      .then(() => updateState())
+      .then(() => {
+        setState((s) => {
+          const newState = { ...s };
+          newState.appointments[id] = appointment;
+          return newState;
+        });
+        setState((s) => updateSpots(s));
+      })
       .then(() => onUpdatedState())
       .catch((e) => {
         onError('Error saving appointment. Please try again.');
@@ -69,9 +97,17 @@ const useApplicationData = () => {
     onUpdatedState,
   }) => {
     onUpdatingState();
+    const appointment = createAppointmentObject({ id });
     axios
       .delete(`api/appointments/${id}`)
-      .then(() => updateState())
+      .then(() => {
+        setState((s) => {
+          const newState = { ...s };
+          newState.appointments[id] = appointment;
+          return newState;
+        });
+        setState((s) => updateSpots(s));
+      })
       .then(() => onUpdatedState())
       .catch((e) => {
         onError('Error deleting appointment. Please try again.');
@@ -80,7 +116,6 @@ const useApplicationData = () => {
   };
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
-
   return { state, dailyAppointments, setDay, bookInterview, cancelInterview };
 };
 
