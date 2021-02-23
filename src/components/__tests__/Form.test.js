@@ -69,4 +69,54 @@ describe('Form', () => {
       expect.objectContaining({ name: 'Lydia Miller-Jones' })
     );
   });
+
+  it('submits the name entered by the user', () => {
+    const onSave = jest.fn();
+    const { getByText, getByPlaceholderText } = render(
+      <Form
+        interviewers={interviewers}
+        interviewer={interviewers[0]}
+        onSave={onSave}
+      />
+    );
+
+    const input = getByPlaceholderText('Enter Student Name');
+
+    fireEvent.change(input, { target: { value: 'Lydia Miller-Jones' } });
+    fireEvent.click(getByText('Save'));
+
+    expect(onSave).toHaveBeenCalledTimes(1);
+    expect(onSave).toHaveBeenCalledWith(
+      expect.objectContaining({ name: 'Lydia Miller-Jones' })
+    );
+  });
+
+  it('can successfully save after trying to submit an empty student name', () => {
+    const onSave = jest.fn();
+    const { getByText, getByPlaceholderText, queryByText } = render(
+      <Form
+        interviewers={interviewers}
+        interviewer={interviewers[0]}
+        onSave={onSave}
+      />
+    );
+
+    fireEvent.click(getByText('Save'));
+
+    expect(getByText(/Please enter your name./i)).toBeInTheDocument();
+    expect(onSave).not.toHaveBeenCalled();
+
+    fireEvent.change(getByPlaceholderText('Enter Student Name'), {
+      target: { value: 'Lydia Miller-Jones' },
+    });
+
+    fireEvent.click(getByText('Save'));
+
+    expect(queryByText(/Please enter your name./i)).toBeNull();
+
+    expect(onSave).toHaveBeenCalledTimes(1);
+    expect(onSave).toHaveBeenCalledWith(
+      expect.objectContaining({ name: 'Lydia Miller-Jones' })
+    );
+  });
 });

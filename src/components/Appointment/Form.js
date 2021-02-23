@@ -52,6 +52,7 @@ const Form = ({
             confirm
             onClick={() => {
               if (name && interviewer) {
+                setError('');
                 onSave({
                   id,
                   name,
