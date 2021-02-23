@@ -47,10 +47,6 @@ const Appointment = ({
             setErrorMessage(m);
             transition(ERROR, true);
           }}
-          onFormError={(m) => {
-            setErrorMessage(m);
-            transition(ERROR);
-          }}
           onUpdatedState={() => {
             back();
             back();

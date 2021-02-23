@@ -6,15 +6,15 @@ const Form = ({
   name: propsName = '',
   interviewers = [],
   interviewer: propsInterviewer = '',
-  onSave,
-  onCancel,
-  onUpdatingState,
-  onError,
-  onFormError,
-  onUpdatedState,
+  onSave = () => {},
+  onCancel = () => {},
+  onUpdatingState = () => {},
+  onError = () => {},
+  onUpdatedState = () => {},
 }) => {
   const [name, setName] = useState(propsName);
   const [interviewer, bookInterviewer] = useState(propsInterviewer);
+  const [error, setError] = useState('');
   const reset = () => {
     setName(propsName);
     bookInterviewer(propsInterviewer);
@@ -30,8 +30,12 @@ const Form = ({
             type="text"
             placeholder="Enter Student Name"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+            data-testid="student-name-input"
           />
+          <section className="appointment__validation">{error}</section>
         </form>
         <InterviewerList
           interviewers={interviewers}
@@ -65,7 +69,7 @@ const Form = ({
                 } else if (!interviewer) {
                   errors += 'Please select an interviewer.';
                 }
-                onFormError(errors);
+                setError(errors);
               }
             }}
           >
