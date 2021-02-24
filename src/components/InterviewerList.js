@@ -4,7 +4,7 @@ import InterviewerListItem from 'components/InterviewerListItem';
 import PropTypes from 'prop-types';
 
 const InterviewerList = ({ interviewers, value, onChange }) => {
-  const InterviewerListItems = Object.values(interviewers).map((i) => (
+  const InterviewerListItems = interviewers.map((i) => (
     <InterviewerListItem
       key={i.id}
       name={i.name}
