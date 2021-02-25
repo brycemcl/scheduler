@@ -1,3 +1,4 @@
+// clickable item for user to select day. child of DayList
 import React from 'react';
 import classNames from 'classnames';
 import 'components/DayListItem.scss';

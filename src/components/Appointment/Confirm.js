@@ -1,3 +1,4 @@
+// subcomponent for the Appointment component. Is displayed during a destructive action.
 import React from 'react';
 import Button from 'components/Button';
 

@@ -1,3 +1,4 @@
+// a hook that implements the current visual state using a stack
 import { useState } from 'react';
 const useVisualMode = (initialMode) => {
   const [stack, setStack] = useState([initialMode]);

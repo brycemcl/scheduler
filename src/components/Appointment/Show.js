@@ -1,3 +1,4 @@
+// subcomponent for the Appointment component. Is displayed for a currently booked appointment. Has hidden controls.
 import React from 'react';
 
 const Show = ({ student, interviewer, onEdit, onDelete }) => {

@@ -1,3 +1,4 @@
+// This is the main component that gets rendered into the dom
 import React from 'react';
 import 'components/Application.scss';
 import DayList from 'components/DayList.js';
@@ -13,6 +14,7 @@ export default function Application(props) {
     bookInterview,
     cancelInterview,
   } = useApplicationData();
+  // creating list of appointment slots
   const schedule = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
     return (
@@ -46,6 +48,7 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {schedule}
+        {/* Is needed for the last line of the list */}
         <Appointment key="last" /* time="5pm" */ />
       </section>
     </main>

@@ -1,3 +1,4 @@
+// subcomponent for the Appointment component. Is displayed during the creation and editing of an appointment.
 import React, { useState } from 'react';
 import InterviewerList from 'components/InterviewerList';
 import Button from 'components/Button';
@@ -15,6 +16,7 @@ const Form = ({
   const [name, setName] = useState(propsName);
   const [interviewer, bookInterviewer] = useState(propsInterviewer);
   const [error, setError] = useState('');
+  // calling reset() will set the form back to how it was.
   const reset = () => {
     setName(propsName);
     bookInterviewer(propsInterviewer);

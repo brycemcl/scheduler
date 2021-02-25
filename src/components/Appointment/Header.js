@@ -1,3 +1,4 @@
+// subcomponent for the Appointment component. Displays a line and the start time of the appointment.
 import React from 'react';
 
 const Header = ({ time }) => {

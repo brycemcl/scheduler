@@ -1,3 +1,4 @@
+// subcomponent for the Appointment component. Is displayed during an error. The use should not see this in normal operation.
 import React from 'react';
 
 const Error = ({ message, onClose }) => {

@@ -1,3 +1,4 @@
+// this is the sample data for the jest tests where axios is mocked
 const fixtures = {
   days: [
     {

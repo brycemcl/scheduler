@@ -1,3 +1,4 @@
+// subcomponent for the Appointment component. Is displayed during while waiting for the backend.
 import React from 'react';
 
 const Status = ({ message, action = () => {} }) => {

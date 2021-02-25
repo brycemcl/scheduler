@@ -1,3 +1,4 @@
+// clickable item for user to select interviewer.
 import React from 'react';
 import 'components/InterviewerList.scss';
 import InterviewerListItem from 'components/InterviewerListItem';

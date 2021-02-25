@@ -1,3 +1,4 @@
+// Appointment component. Is displayed for each of the appointments in a list format.
 import React, { useState } from 'react';
 import Header from './Header';
 import Form from './Form';

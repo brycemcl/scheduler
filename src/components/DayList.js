@@ -1,3 +1,4 @@
+// List of days for a user to select
 import React from 'react';
 import DayListItem from './DayListItem';
 const DayList = ({ days, day, setDay }) => {

@@ -1,3 +1,4 @@
+// Main application state is stored in this hook
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getAppointmentsForDay } from 'helpers/selectors';
@@ -9,10 +10,11 @@ const useApplicationData = () => {
     appointments: {},
     interviewers: {},
   });
-
+  // allows change day currently displayed
   const setDay = (arg) => {
     setState({ ...state, day: arg });
   };
+  // get the state from the server
   const updateState = () => {
     return Promise.all([
       axios.get('/api/days'),
@@ -30,9 +32,11 @@ const useApplicationData = () => {
       });
     });
   };
+  // setup application on initial mount
   useEffect(() => {
     updateState();
   }, []);
+  // create an appointment object with the same shape as the state
   const createAppointmentObject = ({
     id,
     name = null,
@@ -50,6 +54,7 @@ const useApplicationData = () => {
     }
     return appointment;
   };
+  // function that takes in a state, updates the spots count then returns a new state object
   const updateSpots = (state) => {
     const newState = { ...state };
     state.days
@@ -64,6 +69,7 @@ const useApplicationData = () => {
       });
     return newState;
   };
+  // books an interview using the backend api and updates state locally
   const bookInterview = ({
     id,
     name,
@@ -90,6 +96,7 @@ const useApplicationData = () => {
         console.log(e);
       });
   };
+  // deletes an interview using the backend api and updates state locally. A new empty appointment will be at the same time.
   const cancelInterview = ({
     id,
     onUpdatingState,
@@ -114,7 +121,7 @@ const useApplicationData = () => {
         console.log(e);
       });
   };
-
+  // the appointments for the current day
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   return { state, dailyAppointments, setDay, bookInterview, cancelInterview };
 };
