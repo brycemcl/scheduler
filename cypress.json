@@ -1,0 +1,6 @@
+{
+  "baseUrl": "http://172.16.0.152:8080/",
+  "viewportWidth": 1280,
+  "viewportHeight": 720,
+  "experimentalStudio": true
+}
